@@ -1,0 +1,56 @@
+// https://www.typescriptlang.org/tsconfig
+{
+  "compilerOptions": {
+    // -- Type Checking
+    "strict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": false, // depends on project
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    // -- Modules
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    // -- Emit
+    "declaration": true,
+    "declarationMap": true,
+    "stripInternal": true,
+    "importsNotUsedAsValues": "error",
+    "newLine": "lf",
+    "outDir": "build",
+    "sourceMap": true,
+    // -- Editor Support
+    "plugins": [
+      {
+        "name": "typescript-eslint-language-service"
+      }
+    ],
+    // -- Interop Constraints
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    // -- Language and Environment
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "lib": [
+      "ES2020" // Node 14
+    ],
+    // https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
+    "target": "ES2020", // Node 14
+    // -- Projects
+    "composite": true,
+    "incremental": true,
+    // -- Completeness
+    "skipLibCheck": true,
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "stack/**/*"
+  ]
+}
