@@ -10,9 +10,9 @@ import {
 import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources'
 import { Queue } from '@aws-cdk/aws-sqs'
 import { Construct, Duration, Stack, StackProps } from '@aws-cdk/core'
-import camelcase from 'lodash.camelcase'
 import { webhookHandler } from '../src'
 import type { HandlersEnvironment } from '../src/getEnv'
+import { capitalize } from '../src/tools'
 import { config } from './config'
 
 const {
@@ -76,7 +76,7 @@ export class AppStack extends Stack {
 
     const webhooksQueueHandlerLambda = new Function(
       this,
-      `${camelcase(webhookHandler.name)}Lambda`,
+      `${capitalize(webhookHandler.name)}Lambda`,
       {
         ...commonLambdaConfig,
         handler: `index.${webhookHandler.name}`,
