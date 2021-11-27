@@ -15,9 +15,10 @@
     "build": "npm run build:app && npm run build:layer",
     "version": "npm run env:example && auto-changelog -p && git add CHANGELOG.md .env.example",
     "cdk:synth": "npx cdk synth",
-    "cdk:deploy": "npm run build && npm run cdk:synth && npx cdk deploy",
+    "cdk:deploy": "npx cdk deploy",
     "test:app": "npm run build:app && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test",
-    "test": "npm run build && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test && npm run cdk:synth",
+    "test": "npm run build && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test",
+    "deploy": "npm run test && npm run cdk:synth && npx cdk:deploy",
     "release": "np"
   },
   "engines": {
