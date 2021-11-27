@@ -8,6 +8,6 @@ export class PipelineStage extends Stage {
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props)
 
-    new AppStack(this, APP_NAME)
+    new AppStack(this, `${APP_NAME}Stack`)
   }
 }

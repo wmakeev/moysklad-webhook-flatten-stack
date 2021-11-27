@@ -33,8 +33,9 @@ export const config = {
 
   WEBHOOK_EVENT_BUS: getEventBusArn('webhook'),
 
-  WEBHOOK_FLATTEN_EVENT_BUS: getEventBusArn('webhook-flatten'),
+  WEBHOOK_FLATTEN_EVENT_BUS_NAME: 'moysklad-webhook-events',
 
+  // TODO Only is exist private npm modules
   NPM_TOKEN_SECRET_NAME: 'vensi/npm-token',
   // NPM_TOKEN_SECRET_ARN: getSecretArn(NPM_TOKEN_SECRET_ID, 'ptZCPw'),
 

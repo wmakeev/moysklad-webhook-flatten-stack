@@ -22,33 +22,18 @@ export class PipelineStack extends Stack {
       SOURCE_CODECOMMIT_REPO_ARN
     )
 
-    /* TODO Not supported: Error [ValidationError]: SSM Secure reference is not supported in: [AWS::CodeBuild::Project/Properties/Environment/EnvironmentVariables]
-    // https://docs.aws.amazon.com/cdk/latest/guide/get_ssm_value.html
-    const npmTokenParam = ssm.StringParameter.valueForSecureStringParameter(
-      this,
-      NPM_TOKEN_PARAM_NAME,
-      NPM_TOKEN_PARAM_VERSION
-    )
-    */
-
-    /**
-     * NPM token to install private repos
-     * @link https://docs.aws.amazon.com/cdk/latest/guide/get_secrets_manager_value.html
-     */
-    const npmTokenSecret = Secret.fromSecretNameV2(
-      this,
-      'NpmTokenSecret',
-      NPM_TOKEN_SECRET_NAME
-    )
-
     const codeBuildStep = new CodeBuildStep('SynthStep', {
       input: CodePipelineSource.codeCommit(codeCommitRepository, 'master'),
       installCommands: ['npm install -g aws-cdk json'],
       commands: [
         'echo "Node.js $(node -v), NPM $(npm -v)"',
-        'NPM_TOKEN=$(aws secretsmanager get-secret-value --secret-id $NPM_TOKEN_SECRET_NAME | json SecretString)',
         'touch .npmrc',
-        'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc',
+        ...(NPM_TOKEN_SECRET_NAME
+          ? [
+              'NPM_TOKEN=$(aws secretsmanager get-secret-value --secret-id $NPM_TOKEN_SECRET_NAME | json SecretString)',
+              'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc'
+            ]
+          : []),
         'npm ci',
         'npm run build',
         'npx cdk synth'
@@ -58,7 +43,7 @@ export class PipelineStack extends Stack {
         buildImage: LinuxBuildImage.STANDARD_5_0
       },
       env: {
-        NPM_TOKEN_SECRET_NAME
+        ...(NPM_TOKEN_SECRET_NAME ? { NPM_TOKEN_SECRET_NAME } : {})
       }
     })
 
@@ -74,6 +59,19 @@ export class PipelineStack extends Stack {
     // We should call buildPipeline before npmTokenSecret.grantRead,
     // otherwise "Error: Call pipeline.buildPipeline() before reading this property"
     pipeline.buildPipeline()
-    npmTokenSecret.grantRead(codeBuildStep)
+
+    if (NPM_TOKEN_SECRET_NAME) {
+      /**
+       * NPM token to install private repos
+       * @link https://docs.aws.amazon.com/cdk/latest/guide/get_secrets_manager_value.html
+       */
+      const npmTokenSecret = Secret.fromSecretNameV2(
+        this,
+        'NpmTokenSecret',
+        NPM_TOKEN_SECRET_NAME
+      )
+
+      npmTokenSecret.grantRead(codeBuildStep)
+    }
   }
 }

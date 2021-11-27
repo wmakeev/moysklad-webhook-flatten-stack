@@ -19,7 +19,7 @@ const {
   APP_NAME,
   LAMBDA_PROCESS_TIMEOUT_SECONDS,
   WEBHOOK_EVENT_BUS,
-  WEBHOOK_FLATTEN_EVENT_BUS
+  WEBHOOK_FLATTEN_EVENT_BUS_NAME
 } = config
 
 /** Lambda timeout */
@@ -45,10 +45,12 @@ export class AppStack extends Stack {
     )
 
     /** Flattened webhooks target */
-    const webhookFlattenEventBus = EventBus.fromEventBusArn(
+    const webhookFlattenEventBus = new EventBus(
       this,
       'WebhookFlattenEventBus',
-      WEBHOOK_FLATTEN_EVENT_BUS
+      {
+        eventBusName: WEBHOOK_FLATTEN_EVENT_BUS_NAME
+      }
     )
 
     const webhooksQueue = new Queue(this, 'WebhookQueue', {
