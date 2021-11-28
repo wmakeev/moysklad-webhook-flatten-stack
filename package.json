@@ -18,7 +18,7 @@
     "cdk:deploy": "npx cdk deploy",
     "test:app": "npm run build:app && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test",
     "test": "npm run build && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test",
-    "deploy": "npm run test && npm run cdk:synth && npx cdk:deploy",
+    "deploy": "npm run test && npm run cdk:synth && npm run cdk:deploy",
     "release": "np"
   },
   "engines": {
