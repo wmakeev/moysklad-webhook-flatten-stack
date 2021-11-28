@@ -1,7 +1,7 @@
 {
   "name": "moysklad-webhook-flatten-stack",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Разбивает события веб-хуков на отдельные сообщения",
   "scripts": {
     "env:example": "npx sync-dotenv",
