@@ -29,7 +29,11 @@ export interface AppStackProps extends StackProps {
 
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: AppStackProps) {
-    super(scope, id, props)
+    super(scope, id, {
+      description:
+        'Subscribes to Moysklad webhooks and republish each event from batch as separate hooks',
+      ...props
+    })
 
     const LAMBDA_PROCESS_TIMEOUT =
       props.webhookHandlerLambdaTimeoutSeconds ?? LAMBDA_PROCESS_DEFAULT_TIMEOUT

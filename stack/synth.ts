@@ -13,8 +13,7 @@ new PipelineStack(app, `Prod-${APP_NAME}CI`, {
     account: ACCOUNT,
     region: REGION
   },
-  description:
-    'Subscribes to Moysklad webhooks and republish it events as separate hooks',
+  description: `${APP_NAME} production CI stack`,
 
   // Config
   appName: APP_NAME,
@@ -34,6 +33,9 @@ new PipelineStack(app, `Stage-${APP_NAME}CI`, {
     account: env.CDK_DEFAULT_ACCOUNT,
     region: env.CDK_DEFAULT_REGION
   },
+  description: `${APP_NAME} stage CI stack`,
+
+  // Config
   appName: APP_NAME,
   sourceCodeCommitRepoArn: `arn:aws:codecommit:${REGION}:${ACCOUNT}:${REPO_NAME}`,
   sourceBranch: 'stage',
