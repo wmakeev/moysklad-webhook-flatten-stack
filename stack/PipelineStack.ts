@@ -66,8 +66,7 @@ export class PipelineStack extends Stack {
             ]
           : []),
         'npm ci',
-        'npm run build',
-        'npx cdk synth'
+        'npm run build'
       ],
       buildEnvironment: {
         /** node v14.15.4, npm v6.14.10 */
