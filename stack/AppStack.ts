@@ -13,26 +13,28 @@ import { Construct, Duration, Stack, StackProps } from '@aws-cdk/core'
 import { webhookHandler } from '../src'
 import type { HandlersEnvironment } from '../src/getEnv'
 import { capitalize } from '../src/tools'
-import { config } from './config'
-
-const {
-  APP_NAME,
-  LAMBDA_PROCESS_TIMEOUT_SECONDS,
-  WEBHOOK_EVENT_BUS,
-  WEBHOOK_FLATTEN_EVENT_BUS_NAME
-} = config
 
 /** Lambda timeout */
-const LAMBDA_PROCESS_TIMEOUT = Duration.seconds(LAMBDA_PROCESS_TIMEOUT_SECONDS)
+const LAMBDA_PROCESS_DEFAULT_TIMEOUT = Duration.seconds(60)
 
 /** Environment keys expected by lambdas */
 type LambdaEnvKeys = keyof typeof HandlersEnvironment
 
+export interface AppStackProps extends StackProps {
+  appName: string
+  sourceWebhookEventBusArn: string
+  targetWebhookEventBusName: string
+  webhookHandlerLambdaTimeoutSeconds?: Duration
+}
+
 export class AppStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: AppStackProps) {
     super(scope, id, props)
 
-    const dependenciesLayer = new LayerVersion(this, `${APP_NAME}Deps`, {
+    const LAMBDA_PROCESS_TIMEOUT =
+      props.webhookHandlerLambdaTimeoutSeconds ?? LAMBDA_PROCESS_DEFAULT_TIMEOUT
+
+    const dependenciesLayer = new LayerVersion(this, `${props.appName}Deps`, {
       code: Code.fromAsset('./layer/dependencies/'),
       compatibleRuntimes: [Runtime.NODEJS_14_X]
     })
@@ -41,7 +43,7 @@ export class AppStack extends Stack {
     const webhookEventBus = EventBus.fromEventBusArn(
       this,
       'WebhookEventBus',
-      WEBHOOK_EVENT_BUS
+      props.sourceWebhookEventBusArn
     )
 
     /** Flattened webhooks target */
@@ -49,7 +51,7 @@ export class AppStack extends Stack {
       this,
       'WebhookFlattenEventBus',
       {
-        eventBusName: WEBHOOK_FLATTEN_EVENT_BUS_NAME
+        eventBusName: props.targetWebhookEventBusName
       }
     )
 
