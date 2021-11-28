@@ -69,7 +69,7 @@ export class AppStack extends Stack {
     }
 
     const commonLambdaConfig: FunctionProps = {
-      code: Code.fromAsset('./src'),
+      code: Code.fromAsset('./build/src'),
       handler: '',
       runtime: Runtime.NODEJS_14_X,
       memorySize: 128,
