@@ -88,7 +88,6 @@ export class PipelineStack extends Stack {
 
     const stage = new PipelineStage(this, 'Prod', {
       appName: props.appName,
-      appStackDescription: props.description,
       sourceWebhookEventBusArn: props.sourceWebhookEventBusArn,
       targetWebhookEventBusName: props.targetWebhookEventBusName,
       webhookHandlerLambdaTimeoutSeconds:
