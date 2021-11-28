@@ -54,7 +54,10 @@ export class PipelineStack extends Stack {
     )
 
     const codeBuildStep = new CodeBuildStep('SynthStep', {
-      input: CodePipelineSource.codeCommit(codeCommitRepository, 'master'),
+      input: CodePipelineSource.codeCommit(
+        codeCommitRepository,
+        props.sourceBranch
+      ),
       installCommands: ['npm install -g aws-cdk json'],
       commands: [
         'echo "Node.js $(node -v), NPM $(npm -v)"',
@@ -85,6 +88,7 @@ export class PipelineStack extends Stack {
 
     const stage = new PipelineStage(this, 'Prod', {
       appName: props.appName,
+      appStackDescription: props.description,
       sourceWebhookEventBusArn: props.sourceWebhookEventBusArn,
       targetWebhookEventBusName: props.targetWebhookEventBusName,
       webhookHandlerLambdaTimeoutSeconds:
