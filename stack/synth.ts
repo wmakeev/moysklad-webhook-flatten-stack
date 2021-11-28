@@ -13,6 +13,10 @@ new PipelineStack(app, `Prod-${APP_NAME}CI`, {
     account: ACCOUNT,
     region: REGION
   },
+  description:
+    'Subscribes to Moysklad webhooks and republish it events as separate hooks',
+
+  // Config
   appName: APP_NAME,
   appStageName: 'Prod',
   sourceCodeCommitRepoArn: `arn:aws:codecommit:${REGION}:${ACCOUNT}:${REPO_NAME}`,
