@@ -82,6 +82,12 @@ export class AppStack extends Stack {
       reservedConcurrentExecutions: 1
     }
 
+    if (!webhookHandler.name) {
+      throw new Error(
+        'webhookHandler function should have not empty name property'
+      )
+    }
+
     const webhooksQueueHandlerLambda = new Function(
       this,
       `${capitalize(webhookHandler.name)}Lambda`,

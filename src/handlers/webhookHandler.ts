@@ -19,7 +19,7 @@ export function getWebhookHandler(
 ): WebhookHandler {
   const { eventBrige, sqs, log } = params
 
-  return async event => {
+  const webhookHandler: WebhookHandler = async event => {
     log('Event:', JSON.stringify(event, null, 2))
 
     const { TARGET_EVENT_BUS_NAME, SOURCE_QUEUE_URL } = getEnv()
@@ -100,6 +100,11 @@ export function getWebhookHandler(
 
     log(JSON.stringify({ totalRecordsProcessed }))
   }
+
+  webhookHandler.description =
+    'Разбивает веб-хуки МойСклад на отдельные события'
+
+  return webhookHandler
 }
 
 export const webhookHandler: WebhookHandler = getWebhookHandler({
@@ -109,5 +114,3 @@ export const webhookHandler: WebhookHandler = getWebhookHandler({
     console.log(message, ...optionalParams)
   }
 })
-
-webhookHandler.description = 'Разбивает веб-хуки МойСклад на отдельные события'
