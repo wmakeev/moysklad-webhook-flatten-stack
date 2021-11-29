@@ -17,7 +17,7 @@
     "build:stack": "npm run cdk:synth",
     "build": "npm run build:app && npm run build:layer && npm run build:stack",
     "test:app": "npm run build:app && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test",
-    "test": "npm run build && NODE_OPTIONS=--enable-source-maps node -r dotenv/config ./build/test",
+    "test": "npm run build && NODE_OPTIONS=--enable-source-maps node ./build/test",
     "version": "npm run env:example && auto-changelog -p && git add CHANGELOG.md .env.example",
     "release": "np",
     "deploy": "npm run cdk:deploy"
@@ -55,7 +55,7 @@
     "@aws-cdk/core": "1.134.0",
     "@aws-cdk/pipelines": "1.134.0",
     "@types/aws-lambda": "^8.10.85",
-    "@types/lodash.memoize": "^4.1.6",
+    "@types/highland": "^2.12.14",
     "@types/lodash.once": "^4.1.6",
     "@types/node": "^14.17.34",
     "@types/tape": "^4.13.2",
@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "envalid": "^7.2.2",
-    "lodash.memoize": "^4.1.2",
+    "highland": "^2.13.5",
     "lodash.once": "^4.1.1"
   }
 }
