@@ -65,7 +65,7 @@ export class AppStack extends Stack {
 
     const LambdasEnv: Record<LambdaEnvKeys, string> = {
       SOURCE_QUEUE_URL: webhooksQueue.queueUrl,
-      TARGET_EVENT_BUS: webhookFlattenEventBus.eventBusArn
+      TARGET_EVENT_BUS_NAME: props.targetWebhookEventBusName
     }
 
     const commonLambdaConfig: FunctionProps = {
