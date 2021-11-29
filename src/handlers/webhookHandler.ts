@@ -1,9 +1,9 @@
 import _H from 'highland'
 import { getEnv } from '../getEnv'
 import type {
-  ApiEvent,
   MoyskladFlattenedWebhook,
-  WebhookHandler
+  WebhookHandler,
+  WebhookSqsRecordBody
 } from '../types'
 import EventBridge from 'aws-sdk/clients/eventbridge'
 import SQS from 'aws-sdk/clients/sqs'
@@ -28,9 +28,9 @@ export function getWebhookHandler(
       // Формируем список веб-хуков и пробрасываем receiptHandle для дальнейшего
       // удаления события из очереди после перепубликации веб-хуков.
       .map(record => {
-        const webhookRequest = JSON.parse(record.body) as ApiEvent
+        const webhookRequest = JSON.parse(record.body) as WebhookSqsRecordBody
 
-        const webhook = webhookRequest.body
+        const webhook = webhookRequest.detail.body
 
         const originalEventsCount = webhook.events.length
 

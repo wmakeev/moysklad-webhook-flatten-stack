@@ -35,11 +35,11 @@ export type MoyskladFlattenedWebhook = Omit<MoyskladWebhook, 'events'> & {
   originalEventsCount: number
 }
 
-export type ApiEvent = Omit<APIGatewayEvent, 'body'> & {
+export type APIGatewayWebhookEvent = Omit<APIGatewayEvent, 'body'> & {
   body: MoyskladWebhook
 }
 
-export interface WebhookSqsRecord
-  extends EventBridgeEvent<'moysklad', ApiEvent> {
+export interface WebhookSqsRecordBody
+  extends EventBridgeEvent<'moysklad', APIGatewayWebhookEvent> {
   'detail-type': 'moysklad'
 }
