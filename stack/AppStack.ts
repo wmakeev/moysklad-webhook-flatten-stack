@@ -70,7 +70,7 @@ export class AppStack extends Stack {
 
     const commonLambdaConfig: FunctionProps = {
       code: Code.fromAsset('./build/src'),
-      handler: '',
+      handler: 'index.handler', // reassign later
       runtime: Runtime.NODEJS_14_X,
       memorySize: 128,
       timeout: LAMBDA_PROCESS_TIMEOUT,
@@ -78,8 +78,10 @@ export class AppStack extends Stack {
         NODE_OPTIONS: '--enable-source-maps',
         ...LambdasEnv
       },
-      layers: [dependenciesLayer],
-      reservedConcurrentExecutions: 1
+      layers: [dependenciesLayer]
+
+      // FIXME Resource handler returned message: "Specified ReservedConcurrentExecutions for function decreases account's UnreservedConcurrentExecution below its minimum value of [50].
+      // reservedConcurrentExecutions: 1
     }
 
     if (!webhookHandler.name) {
