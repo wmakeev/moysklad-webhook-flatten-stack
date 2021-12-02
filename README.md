@@ -99,13 +99,13 @@ git push --set-upstream origin master
 Once for each deploy region in current account,
 
 ```
-npx cdk bootstrap --profile default --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+npx cdk bootstrap --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile default
 ```
 
 or specific account
 
 ```
-npx cdk bootstrap aws://ACCOUNT-NUMBER/REGION --profile default --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+npx cdk bootstrap aws://ACCOUNT-NUMBER/REGION --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile default
 ```
 
 Get current `ACCOUNT-NUMBER`
