@@ -10,7 +10,6 @@
     "compile:dev": "tsc",
     "compile": "tsc --build tsconfig.prod.json",
     "cdk:synth": "npx cdk synth",
-    "cdk:deploy": "npx cdk deploy",
     "build:layer": "touch .npmrc && LAYER_DIR=layer/dependencies && rm -rf $LAYER_DIR && mkdir -p \"${LAYER_DIR}/nodejs\" && cp package.json \"${LAYER_DIR}/nodejs\" && cp .npmrc \"${LAYER_DIR}/nodejs\" && npm install --production --prefix \"${LAYER_DIR}/nodejs\" && rm \"${LAYER_DIR}/nodejs/package.json\" && rm \"${LAYER_DIR}/nodejs/package-lock.json\" && rm \"${LAYER_DIR}/nodejs/.npmrc\"",
     "build:app:dev": "npm run lint && npm run compile:dev",
     "build:app": "npm run cleanup && npm run lint && npm run compile",
@@ -20,7 +19,7 @@
     "test": "npm run build && NODE_OPTIONS=--enable-source-maps node ./build/test",
     "version": "npm run env:example && auto-changelog -p && git add CHANGELOG.md .env.example",
     "release": "np",
-    "deploy": "npm run cdk:deploy"
+    "deploy": "npx cdk deploy --profile $PROFILE"
   },
   "engines": {
     "node": ">=14"
