@@ -46,12 +46,10 @@ npm run test
 APP_NAME=MoyskladWebhookFlattenStack
 
 APP_DESCRIPTION="Разбитие событий веб-хуков на отдельные сообщения"
-
-ORG=vensi
 ```
 
 ```bash
-aws codecommit create-repository --repository-name $APP_NAME --repository-description $APP_DESCRIPTION --tags org=$ORG
+aws codecommit create-repository --repository-name $APP_NAME --repository-description $APP_DESCRIPTION --profile default
 ```
 
 command output:
@@ -124,6 +122,8 @@ aws configure get region --profile prod
 
 ### Deploy CDK stack
 
+> TODO Local repository should pushed to current AWS profile CodeCommit
+
 ```bash
-npm run cdk:deploy
+PROFILE=default npm run deploy
 ```
