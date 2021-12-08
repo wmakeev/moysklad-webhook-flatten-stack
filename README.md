@@ -120,6 +120,12 @@ aws configure get region
 aws configure get region --profile prod
 ```
 
+### Configure EventBridge bus
+
+Ensure `webhook` EventBridge bus is exist or create it.
+
+To recieve webhooks, [webhook-to-eventbridge](https://github.com/wmakeev/webhook-to-eventbridge) stack can be used.
+
 ### Deploy CDK stack
 
 > TODO Local repository should pushed to current AWS profile CodeCommit
